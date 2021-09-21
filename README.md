@@ -42,20 +42,20 @@ config_context = ""
 
 #### Minikube
 
-minikube version
-minikube status
-minikube addons list
+- minikube version
+- minikube status
+- minikube addons list
 
 #### Kubectl
 
-kubectl version -o json
-kubectl config view
-kubectl cluster-info
-kubectl get nodes
-kubectl get namespaces
-kubectl get serviceaccounts
-kubectl get deployments -n webapp-ns
-kubectl get services -n webapp-ns
-kubectl get ingress -n webapp-ns
-kubectl create -f ingress.yaml
-kubectl get ingress -n webapp-ns
+- kubectl version -o json
+- kubectl config view
+- kubectl cluster-info
+- kubectl get nodes
+- kubectl get namespaces
+- kubectl get serviceaccounts
+- kubectl get deployments -n webapp-ns
+- kubectl get services -n webapp-ns
+- kubectl get ingress -n webapp-ns
+- kubectl create -f ingress.yaml
+- kubectl get ingress -n webapp-ns
