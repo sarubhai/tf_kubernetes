@@ -5,10 +5,12 @@ Deploys multiple Kubernetes Resouces in k8s Minikube cluster using Terraform
 The Resources that will be deployed from this repository are:
 
 - Namespace
+- Service Account & Role Binding
+- Secrets
 - Deployment
 - Service
 - Ingress
-- Service Account & Role Binding
+- Persistent Volume & Persistent Volume Claim
 
 ### Minikube Configuration using Terraform
 
@@ -59,3 +61,6 @@ config_context = ""
 - kubectl get ingress -n webapp-ns
 - kubectl create -f ingress.yaml
 - kubectl get ingress -n webapp-ns
+- kubectl get persistentvolumes
+- kubectl get persistentvolumeclaims
+- kubectl get secrets
