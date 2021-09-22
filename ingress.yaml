@@ -3,10 +3,10 @@ kind: Ingress
 metadata:
   namespace: webapp-ns
   name: webapp-frontend-ingress
-  annotations:
-    deployment.kubernetes.io/revision: "1"
   labels:
     name: webapp-frontend-ingress
+  annotations:
+    deployment.kubernetes.io/revision: "1"
 spec:
   rules:
   - http:

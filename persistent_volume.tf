@@ -1,30 +1,34 @@
 # persistent_volume.tf
 # Owner: Saurav Mitra
 # Description: This terraform config will create the kubernetes persistent volume resources in Kubernetes cluster
+# A PersistentVolume provides networked storage in the cluster
 
-resource "kubernetes_persistent_volume" "app_backend_pv" {
+resource "kubernetes_persistent_volume" "generic_pv1" {
   metadata {
-    name = "${var.prefix}-backend-pv1"
+    name = "generic-pv1"
 
     labels = {
-      type       = "local"
-      name       = "${var.prefix}-backend-pv1"
-      instance   = "${var.prefix}-backend-pv1"
-      version    = "v1"
-      component  = "webserver-backend"
-      part-of    = "webapp"
+      name    = "generic-pv1"
+      env     = var.env
+      version = "v1"
+      type    = "local"
+    }
+
+    annotations = {
+      component  = "pv"
+      part-of    = "generic"
       managed-by = "terraform"
       created-by = var.owner
     }
   }
 
   spec {
+    access_modes       = ["ReadWriteOnce"]
+    storage_class_name = kubernetes_storage_class.generic_sc.metadata.0.name
+
     capacity = {
       storage = "2Gi"
     }
-
-    access_modes       = ["ReadWriteOnce"]
-    storage_class_name = "local"
 
     node_affinity {
       required {
@@ -43,33 +47,19 @@ resource "kubernetes_persistent_volume" "app_backend_pv" {
         path = "/data/pv-1"
       }
     }
+
+    # mount_options = []
   }
+
+  # lifecycle {
+  #   ignore_changes = [
+  #     metadata.0.resource_version,
+  #     spec[0].mount_options,
+  #     spec[0].claim_ref
+  #   ]
+  # }
 }
 
-resource "kubernetes_persistent_volume_claim" "app_backend_pv_claim" {
-  metadata {
-    name = "${var.prefix}-backend-pv1-claim"
-
-    labels = {
-      name       = "${var.prefix}-backend-pv1-claim"
-      instance   = "${var.prefix}-backend-pv1-claim"
-      version    = "v1"
-      component  = "webserver-backend"
-      part-of    = "webapp"
-      managed-by = "terraform"
-      created-by = var.owner
-    }
-  }
-
-  spec {
-    access_modes       = ["ReadWriteOnce"]
-    storage_class_name = "local"
-
-    resources {
-      requests = {
-        storage = "1Gi"
-      }
-    }
-    volume_name = kubernetes_persistent_volume.app_backend_pv.metadata.0.name
-  }
-}
+# Validation
+# kubectl get persistentvolumes
+# kubectl describe persistentvolume generic-pv1

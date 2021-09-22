@@ -5,12 +5,23 @@ Deploys multiple Kubernetes Resouces in k8s Minikube cluster using Terraform
 The Resources that will be deployed from this repository are:
 
 - Namespace
-- Service Account & Role Binding
-- Secrets
-- Deployment
-- Service
+- Service Account
+- Cluster Role
+- Role ^
+- Cluster Role Binding
+- Role Binding
+- Config Map ^
+- Secret
+- Storage Class ^
+- Persistent Volume ^
+- Persistent Volume Claim (Release/Recreate Issue)
+- Pod ^
+- Replication Controller ^
+- Deployment ^
+- Service ^
 - Ingress
-- Persistent Volume & Persistent Volume Claim
+
+^ - Some attributes don't respond to lifecycle.ignore_changes; only option is to refresh state file; "terraform apply -refresh-only --auto-approve"
 
 ### Minikube Configuration using Terraform
 
@@ -56,11 +67,11 @@ config_context = ""
 - kubectl get nodes
 - kubectl get namespaces
 - kubectl get serviceaccounts
-- kubectl get deployments -n webapp-ns
-- kubectl get services -n webapp-ns
-- kubectl get ingress -n webapp-ns
-- kubectl create -f ingress.yaml
-- kubectl get ingress -n webapp-ns
-- kubectl get persistentvolumes
-- kubectl get persistentvolumeclaims
 - kubectl get secrets
+- kubectl get deployments -n generic-ns
+- kubectl get services -n generic-ns
+- kubectl get ingress -n generic-ns
+- kubectl create -f ingress.yaml
+- kubectl get ingress -n generic-ns
+- kubectl get persistentvolumes
+- kubectl get persistentvolumeclaims -n generic-ns

@@ -1,41 +1,41 @@
-# deployment.tf
+# replication_controller.tf
 # Owner: Saurav Mitra
-# Description: This terraform config will create the kubernetes deployment resources in Kubernetes cluster
-# A Deployment ensures that a specified number of pod “replicas” are running at any one time
+# Description: This terraform config will create the kubernetes replication controller resources in Kubernetes cluster
+# A ReplicationController ensures that a specified number of pod “replicas” are running at any one time
 
-resource "kubernetes_deployment" "generic_nginx_deploy" {
+resource "kubernetes_replication_controller" "generic_nginx_rc" {
   metadata {
     namespace = kubernetes_namespace.generic_ns.metadata.0.name
-    name      = "generic-nginx-deploy"
+    name      = "generic-nginx-rc"
 
     labels = {
-      name    = "generic-nginx-deploy"
+      name    = "generic-nginx-rc"
       env     = var.env
       version = "v1"
     }
 
     annotations = {
-      component     = "deployments"
-      part-of       = "generic"
-      managed-by    = "terraform"
-      created-by    = var.owner
-      imageregistry = "https://hub.docker.com/"
+      component  = "rc"
+      part-of    = "generic"
+      managed-by = "terraform"
+      created-by = var.owner
     }
   }
 
   spec {
-    replicas = 2
+    replicas = 1
 
-    selector {
-      match_labels = {
-        name = "generic-nginx-ws-pod"
-      }
+    selector = {
+      name = kubernetes_pod.generic_nginx_pod.metadata.0.name
     }
 
     template {
       metadata {
+        namespace = kubernetes_namespace.generic_ns.metadata.0.name
+        name      = "generic-nginx-pod"
+
         labels = {
-          name    = "generic-nginx-ws-pod"
+          name    = "generic-nginx-pod"
           env     = var.env
           version = "v1"
         }
@@ -52,7 +52,7 @@ resource "kubernetes_deployment" "generic_nginx_deploy" {
       spec {
         container {
           image   = "nginx:1.21"
-          name    = "nginx"
+          name    = "generic-nginx"
           args    = []
           command = []
 
@@ -95,5 +95,5 @@ resource "kubernetes_deployment" "generic_nginx_deploy" {
 }
 
 # Validation
-# kubectl get deployments -n generic-ns
-# kubectl describe deployment generic-nginx-deploy -n generic-ns
+# kubectl get rc -n generic-ns
+# kubectl describe rc generic-nginx-rc -n generic-ns

@@ -34,9 +34,9 @@ variable "client_key" {
 
 
 # Tags
-variable "prefix" {
-  description = "This prefix will be included in the name of the resources."
-  default     = "webapp"
+variable "env" {
+  description = "This environment name tag will be included in the resources."
+  default     = "dev"
 }
 
 variable "owner" {
@@ -44,3 +44,7 @@ variable "owner" {
   default     = "saurav_mitra"
 }
 
+variable "prefix" {
+  description = "This prefix will be included in the name of the application resources."
+  default     = "webapp"
+}
