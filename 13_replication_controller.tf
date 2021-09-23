@@ -26,16 +26,17 @@ resource "kubernetes_replication_controller" "generic_nginx_rc" {
     replicas = 1
 
     selector = {
-      name = kubernetes_pod.generic_nginx_pod.metadata.0.name
+      # name = kubernetes_pod.generic_nginx_pod.metadata.0.name
+      name = "generic-nginx-rc-pod"
     }
 
     template {
       metadata {
         namespace = kubernetes_namespace.generic_ns.metadata.0.name
-        name      = "generic-nginx-pod"
+        name      = "generic-nginx-rc-pod"
 
         labels = {
-          name    = "generic-nginx-pod"
+          name    = "generic-nginx-rc-pod"
           env     = var.env
           version = "v1"
         }
@@ -53,8 +54,8 @@ resource "kubernetes_replication_controller" "generic_nginx_rc" {
         container {
           image   = "nginx:1.21"
           name    = "generic-nginx"
-          args    = []
           command = []
+          args    = []
 
           port {
             container_port = 80
@@ -93,6 +94,7 @@ resource "kubernetes_replication_controller" "generic_nginx_rc" {
     ]
   }
 }
+
 
 # Validation
 # kubectl get rc -n generic-ns

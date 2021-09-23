@@ -39,6 +39,42 @@ resource "kubernetes_persistent_volume_claim" "generic_pv1_claim" {
   }
 }
 
+resource "kubernetes_persistent_volume_claim" "generic_pv2_claim" {
+  metadata {
+    namespace = kubernetes_namespace.generic_ns.metadata.0.name
+    name      = "generic-pv2-claim"
+
+    labels = {
+      name    = "generic-pv2-claim"
+      env     = var.env
+      version = "v1"
+    }
+
+    annotations = {
+      component  = "pvc"
+      part-of    = "generic"
+      managed-by = "terraform"
+      created-by = var.owner
+    }
+  }
+
+  spec {
+    access_modes       = ["ReadWriteOnce"]
+    storage_class_name = kubernetes_storage_class.generic_sc.metadata.0.name
+    volume_name        = kubernetes_persistent_volume.generic_pv2.metadata.0.name
+
+    resources {
+      limits = {
+        storage = "2Gi"
+      }
+
+      requests = {
+        storage = "1Gi"
+      }
+    }
+  }
+}
+
 # Validation
 # kubectl get persistentvolumeclaims -n generic-ns
 # kubectl describe persistentvolumeclaim generic-pv1-claim -n generic-ns

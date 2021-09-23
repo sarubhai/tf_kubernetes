@@ -23,8 +23,9 @@ resource "kubernetes_persistent_volume" "generic_pv1" {
   }
 
   spec {
-    access_modes       = ["ReadWriteOnce"]
-    storage_class_name = kubernetes_storage_class.generic_sc.metadata.0.name
+    access_modes                     = ["ReadWriteOnce"]
+    storage_class_name               = kubernetes_storage_class.generic_sc.metadata.0.name
+    persistent_volume_reclaim_policy = "Recycle" # "Retain"
 
     capacity = {
       storage = "2Gi"
@@ -36,7 +37,7 @@ resource "kubernetes_persistent_volume" "generic_pv1" {
           match_expressions {
             key      = "kubernetes.io/hostname"
             operator = "In"
-            values   = ["ip-10-0-1-200"]
+            values   = [var.hostname]
           }
         }
       }
@@ -45,6 +46,54 @@ resource "kubernetes_persistent_volume" "generic_pv1" {
     persistent_volume_source {
       local {
         path = "/data/pv-1"
+      }
+    }
+  }
+}
+
+resource "kubernetes_persistent_volume" "generic_pv2" {
+  metadata {
+    name = "generic-pv2"
+
+    labels = {
+      name    = "generic-pv2"
+      env     = var.env
+      version = "v1"
+      type    = "local"
+    }
+
+    annotations = {
+      component  = "pv"
+      part-of    = "generic"
+      managed-by = "terraform"
+      created-by = var.owner
+    }
+  }
+
+  spec {
+    access_modes                     = ["ReadWriteOnce"]
+    storage_class_name               = kubernetes_storage_class.generic_sc.metadata.0.name
+    persistent_volume_reclaim_policy = "Recycle" # "Retain"
+
+    capacity = {
+      storage = "2Gi"
+    }
+
+    node_affinity {
+      required {
+        node_selector_term {
+          match_expressions {
+            key      = "kubernetes.io/hostname"
+            operator = "In"
+            values   = [var.hostname]
+          }
+        }
+      }
+    }
+
+    persistent_volume_source {
+      local {
+        path = "/data/pv-2"
       }
     }
 

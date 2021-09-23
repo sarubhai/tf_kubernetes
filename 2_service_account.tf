@@ -1,9 +1,8 @@
 # service_account.tf
 # Owner: Saurav Mitra
 # Description: This terraform config will create the kubernetes service account resources in Kubernetes cluster
-# UseCase: Vault Auth Service Account for Kubernetes Auth Method
+# A ServiceAccount provides an identity for processes that run in a Pod.
 
-# Generic
 resource "kubernetes_service_account" "generic_sa" {
   metadata {
     namespace = kubernetes_namespace.generic_ns.metadata.0.name
@@ -18,27 +17,6 @@ resource "kubernetes_service_account" "generic_sa" {
     annotations = {
       component  = "sa"
       part-of    = "generic"
-      managed-by = "terraform"
-      created-by = var.owner
-    }
-  }
-}
-
-# VAULT
-resource "kubernetes_service_account" "vault_auth_sa" {
-  metadata {
-    namespace = "default"
-    name      = "vault-auth-sa"
-
-    labels = {
-      name    = "vault-auth-sa"
-      env     = var.env
-      version = "v1"
-    }
-
-    annotations = {
-      component  = "sa"
-      part-of    = "vault-auth"
       managed-by = "terraform"
       created-by = var.owner
     }

@@ -24,6 +24,7 @@ resource "kubernetes_service" "generic_nginx_svc" {
 
   spec {
     selector = {
+      # name = "generic-nginx-ws-pod"
       name = kubernetes_deployment.generic_nginx_deploy.spec.0.template.0.metadata.0.labels.name
     }
 

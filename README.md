@@ -25,7 +25,10 @@ The Resources that will be deployed from this repository are:
 
 ### Minikube Configuration using Terraform
 
-- Refer [https://github.com/sarubhai/aws_vault](https://github.com/sarubhai/aws_vault) repo to auto configure the Minikube k8s Node.
+- Refer minikube_install.sh to install & configure a Minikube k8s Node for demo.
+- kubectl config view
+- copy the config content, along with ca.crt, client.crt & client.key to your loacl machine
+- modify the kubernetes config file in local machine accordingly
 
 ### Prerequisite
 
@@ -42,6 +45,8 @@ Terraform is already installed in local machine.
 config_path = "/Users/John/.minikube/config"
 
 config_context = ""
+
+hostname = "minikube"
 ```
 
 - Change other variables in variables.tf file if needed

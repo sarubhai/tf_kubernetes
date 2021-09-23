@@ -53,11 +53,17 @@ resource "kubernetes_deployment" "generic_nginx_deploy" {
         container {
           image   = "nginx:1.21"
           name    = "nginx"
-          args    = []
           command = []
+          args    = []
 
           port {
             container_port = 80
+          }
+
+          volume_mount {
+            name       = "static-asset"
+            mount_path = "/usr/share/nginx/html"
+            read_only  = true
           }
 
           resources {
@@ -80,6 +86,14 @@ resource "kubernetes_deployment" "generic_nginx_deploy" {
 
             initial_delay_seconds = 3
             period_seconds        = 3
+          }
+        }
+
+        volume {
+          name = "static-asset"
+          persistent_volume_claim {
+            claim_name = kubernetes_persistent_volume_claim.generic_pv1_claim.metadata.0.name
+            read_only  = true
           }
         }
       }
