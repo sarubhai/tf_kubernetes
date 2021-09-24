@@ -25,7 +25,7 @@ resource "kubernetes_persistent_volume" "generic_pv1" {
   spec {
     access_modes                     = ["ReadWriteOnce"]
     storage_class_name               = kubernetes_storage_class.generic_sc.metadata.0.name
-    persistent_volume_reclaim_policy = "Recycle" # "Retain"
+    persistent_volume_reclaim_policy = "Retain" # "Recycle"
 
     capacity = {
       storage = "2Gi"
@@ -73,7 +73,7 @@ resource "kubernetes_persistent_volume" "generic_pv2" {
   spec {
     access_modes                     = ["ReadWriteOnce"]
     storage_class_name               = kubernetes_storage_class.generic_sc.metadata.0.name
-    persistent_volume_reclaim_policy = "Recycle" # "Retain"
+    persistent_volume_reclaim_policy = "Retain" # "Recycle"
 
     capacity = {
       storage = "2Gi"

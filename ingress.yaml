@@ -1,12 +1,18 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  namespace: webapp-ns
-  name: webapp-frontend-ingress
+  namespace: generic-ns
+  name: generic-nginx-ing
   labels:
-    name: webapp-frontend-ingress
+    name: generic-nginx-ing
+    env: "dev"
+    version: "v1"
   annotations:
-    deployment.kubernetes.io/revision: "1"
+    component: "ing"
+    part-of: "generic"
+    managed-by: "terraform"
+    created-by: "saurav_mitra"
+    "kubernetes.io/ingress.class": "nginx"
 spec:
   rules:
   - http:
@@ -15,6 +21,6 @@ spec:
         path: "/"
         backend:
           service:
-            name: webapp-frontend-svc
+            name: generic-nginx-svc
             port: 
               number: 80

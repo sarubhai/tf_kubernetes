@@ -4,19 +4,19 @@
 # ConfigMap store fine-grained information like individual properties or coarse-grained information like entire config files or JSON blobs. 
 # The resource provides mechanisms to inject containers with configuration data, while keeping containers agnostic of Kubernetes
 
-resource "kubernetes_config_map" "generic_config_map" {
+resource "kubernetes_config_map" "generic_cm" {
   metadata {
     namespace = kubernetes_namespace.generic_ns.metadata.0.name
-    name      = "generic-config-map"
+    name      = "generic-cm"
 
     labels = {
-      name    = "generic-config-map"
+      name    = "generic-cm"
       env     = var.env
       version = "v1"
     }
 
     annotations = {
-      component  = "configmaps"
+      component  = "cm"
       part-of    = "generic"
       managed-by = "terraform"
       created-by = var.owner
@@ -37,6 +37,6 @@ resource "kubernetes_config_map" "generic_config_map" {
 
 # Validation
 # kubectl get configmaps -n generic-ns
-# kubectl describe configmaps generic-config-map -n generic-ns
-# kubectl get configmaps generic-config-map -n generic-ns -o jsonpath="{.data['api_hostname']}"; echo
-# kubectl get configmaps generic-config-map -n generic-ns -o jsonpath="{.data['db_hostname']}"; echo
+# kubectl describe configmaps generic-cm -n generic-ns
+# kubectl get configmaps generic-cm -n generic-ns -o jsonpath="{.data['api_hostname']}"; echo
+# kubectl get configmaps generic-cm -n generic-ns -o jsonpath="{.data['db_hostname']}"; echo

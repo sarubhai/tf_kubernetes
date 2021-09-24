@@ -15,7 +15,7 @@ resource "kubernetes_deployment" "generic_nginx_deploy" {
     }
 
     annotations = {
-      component     = "deployments"
+      component     = "deploy"
       part-of       = "generic"
       managed-by    = "terraform"
       created-by    = var.owner
@@ -28,20 +28,20 @@ resource "kubernetes_deployment" "generic_nginx_deploy" {
 
     selector {
       match_labels = {
-        name = "generic-nginx-ws-pod"
+        name = "generic-nginx-ws-po"
       }
     }
 
     template {
       metadata {
         labels = {
-          name    = "generic-nginx-ws-pod"
+          name    = "generic-nginx-ws-po"
           env     = var.env
           version = "v1"
         }
 
         annotations = {
-          component     = "pods"
+          component     = "po"
           part-of       = "generic"
           managed-by    = "terraform"
           created-by    = var.owner
@@ -92,7 +92,7 @@ resource "kubernetes_deployment" "generic_nginx_deploy" {
         volume {
           name = "static-asset"
           persistent_volume_claim {
-            claim_name = kubernetes_persistent_volume_claim.generic_pv1_claim.metadata.0.name
+            claim_name = kubernetes_persistent_volume_claim.generic_pvc1.metadata.0.name
             read_only  = true
           }
         }

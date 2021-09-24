@@ -25,7 +25,7 @@ The Resources that will be deployed from this repository are:
 
 ### Minikube Configuration using Terraform
 
-- Refer minikube_install.sh to install & configure a Minikube k8s Node for demo.
+- Refer [minikube_install.sh](https://github.com/sarubhai/install-demo-minikube) to install & configure a Minikube k8s Node for demo.
 - kubectl config view
 - copy the config content, along with ca.crt, client.crt & client.key to your loacl machine
 - modify the kubernetes config file in local machine accordingly

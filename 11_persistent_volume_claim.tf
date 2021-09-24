@@ -3,13 +3,13 @@
 # Description: This terraform config will create the kubernetes persistent volume claim resources in Kubernetes cluster
 # This resource allows the user to request for and claim to a persistent volume
 
-resource "kubernetes_persistent_volume_claim" "generic_pv1_claim" {
+resource "kubernetes_persistent_volume_claim" "generic_pvc1" {
   metadata {
     namespace = kubernetes_namespace.generic_ns.metadata.0.name
-    name      = "generic-pv1-claim"
+    name      = "generic-pvc1"
 
     labels = {
-      name    = "generic-pv1-claim"
+      name    = "generic-pvc1"
       env     = var.env
       version = "v1"
     }
@@ -39,7 +39,7 @@ resource "kubernetes_persistent_volume_claim" "generic_pv1_claim" {
   }
 }
 
-resource "kubernetes_persistent_volume_claim" "generic_pv2_claim" {
+resource "kubernetes_persistent_volume_claim" "generic_pvc2" {
   metadata {
     namespace = kubernetes_namespace.generic_ns.metadata.0.name
     name      = "generic-pv2-claim"
@@ -77,4 +77,5 @@ resource "kubernetes_persistent_volume_claim" "generic_pv2_claim" {
 
 # Validation
 # kubectl get persistentvolumeclaims -n generic-ns
-# kubectl describe persistentvolumeclaim generic-pv1-claim -n generic-ns
+# kubectl describe persistentvolumeclaim generic-pvc1 -n generic-ns
+# kubectl describe persistentvolumeclaim generic-pvc2 -n generic-ns

@@ -15,7 +15,7 @@ resource "kubernetes_service" "generic_nginx_svc" {
     }
 
     annotations = {
-      component  = "svcs"
+      component  = "svc"
       part-of    = "generic"
       managed-by = "terraform"
       created-by = var.owner
@@ -24,16 +24,18 @@ resource "kubernetes_service" "generic_nginx_svc" {
 
   spec {
     selector = {
-      # name = "generic-nginx-ws-pod"
+      # name = "generic-nginx-ws-po"
       name = kubernetes_deployment.generic_nginx_deploy.spec.0.template.0.metadata.0.labels.name
     }
 
-    type = "NodePort"
+    type             = "NodePort"
+    session_affinity = "ClientIP"
 
     port {
       port        = 80
       target_port = 80
       node_port   = 30080
+      protocol    = "TCP"
     }
   }
 

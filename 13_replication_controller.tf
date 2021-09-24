@@ -26,23 +26,23 @@ resource "kubernetes_replication_controller" "generic_nginx_rc" {
     replicas = 1
 
     selector = {
-      # name = kubernetes_pod.generic_nginx_pod.metadata.0.name
-      name = "generic-nginx-rc-pod"
+      # name = kubernetes_pod.generic_nginx_po.metadata.0.name
+      name = "generic-nginx-rc-po"
     }
 
     template {
       metadata {
         namespace = kubernetes_namespace.generic_ns.metadata.0.name
-        name      = "generic-nginx-rc-pod"
+        name      = "generic-nginx-rc-po"
 
         labels = {
-          name    = "generic-nginx-rc-pod"
+          name    = "generic-nginx-rc-po"
           env     = var.env
           version = "v1"
         }
 
         annotations = {
-          component     = "pods"
+          component     = "po"
           part-of       = "generic"
           managed-by    = "terraform"
           created-by    = var.owner

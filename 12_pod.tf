@@ -4,19 +4,19 @@
 # A pod is a group of one or more containers
 # For Example Only; Run Pod as part of Replication Controller, Deployment etc.
 
-resource "kubernetes_pod" "generic_busybox_pod" {
+resource "kubernetes_pod" "generic_busybox_po" {
   metadata {
     namespace = kubernetes_namespace.generic_ns.metadata.0.name
-    name      = "generic-busybox-pod"
+    name      = "generic-busybox-po"
 
     labels = {
-      name    = "generic-busybox-pod"
+      name    = "generic-busybox-po"
       env     = var.env
       version = "v1"
     }
 
     annotations = {
-      component     = "pods"
+      component     = "po"
       part-of       = "generic"
       managed-by    = "terraform"
       created-by    = var.owner
@@ -29,7 +29,40 @@ resource "kubernetes_pod" "generic_busybox_pod" {
       image   = "busybox"
       name    = "generic-busybox"
       command = ["sh"]
-      args    = ["-c", "while true; do echo Logging at: `date \"+%F | %H:%M:%S\"` >> /output/output.log; sleep 60; done"]
+      args    = ["-c", "while true; do echo Logging at: `date \"+%F %H:%M:%S\"` : host=$DB_HOST : user=$DB_USER : pass=$DB_PASS  >> /output/output.log; sleep 120; done"]
+
+      env {
+        name = "DB_HOST"
+
+        value_from {
+          config_map_key_ref {
+            name = kubernetes_config_map.generic_cm.metadata.0.name
+            key  = "db_hostname"
+          }
+        }
+      }
+
+      env {
+        name = "DB_USER"
+
+        value_from {
+          secret_key_ref {
+            name = kubernetes_secret.generic_secret.metadata.0.name
+            key  = "username"
+          }
+        }
+      }
+
+      env {
+        name = "DB_PASS"
+
+        value_from {
+          secret_key_ref {
+            name = kubernetes_secret.generic_secret.metadata.0.name
+            key  = "password"
+          }
+        }
+      }
 
       # port {
       #   container_port = 22
@@ -57,7 +90,7 @@ resource "kubernetes_pod" "generic_busybox_pod" {
     volume {
       name = "write-log"
       persistent_volume_claim {
-        claim_name = kubernetes_persistent_volume_claim.generic_pv2_claim.metadata.0.name
+        claim_name = kubernetes_persistent_volume_claim.generic_pvc2.metadata.0.name
         read_only  = false
       }
     }
@@ -78,4 +111,4 @@ resource "kubernetes_pod" "generic_busybox_pod" {
 
 # Validation
 # kubectl get pods -n generic-ns
-# kubectl describe pod generic-nginx-pod -n generic-ns
+# kubectl describe pod generic-busybox-po -n generic-ns

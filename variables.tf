@@ -17,6 +17,7 @@ variable "hostname" {
   description = "The hostname of standalone kubernetes cluster."
   default     = "minikube"
 }
+
 /*
 variable "cluster_endpoint" {
   description = "The hostname URI of the Kubernetes API."
