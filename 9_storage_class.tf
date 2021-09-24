@@ -22,11 +22,11 @@ resource "kubernetes_storage_class" "generic_sc" {
     }
   }
 
-  # storage_provisioner    = "k8s.io/minikube-hostpath"
-  storage_provisioner    = "kubernetes.io/no-provisioner"
-  reclaim_policy         = "Delete"
+  storage_provisioner    = var.storage_provisioner
+  reclaim_policy         = var.reclaim_policy
   volume_binding_mode    = "Immediate"
-  allow_volume_expansion = "true"
+  allow_volume_expansion = var.allow_volume_expansion
+
   # mount_options = []
   # parameters = {}
 

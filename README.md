@@ -47,6 +47,17 @@ config_path = "/Users/John/.minikube/config"
 config_context = ""
 
 hostname = "minikube"
+
+storage_provisioner    = "kubernetes.io/no-provisioner"
+
+reclaim_policy         = "Delete"
+
+allow_volume_expansion = true
+
+pv1_path               = "/data/pv-1"
+
+pv2_path               = "/data/pv-2"
+
 ```
 
 - Change other variables in variables.tf file if needed

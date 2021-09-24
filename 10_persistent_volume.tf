@@ -45,7 +45,7 @@ resource "kubernetes_persistent_volume" "generic_pv1" {
 
     persistent_volume_source {
       local {
-        path = "/data/pv-1"
+        path = var.pv1_path
       }
     }
   }
@@ -93,7 +93,7 @@ resource "kubernetes_persistent_volume" "generic_pv2" {
 
     persistent_volume_source {
       local {
-        path = "/data/pv-2"
+        path = var.pv2_path
       }
     }
 
@@ -112,3 +112,4 @@ resource "kubernetes_persistent_volume" "generic_pv2" {
 # Validation
 # kubectl get persistentvolumes
 # kubectl describe persistentvolume generic-pv1
+# kubectl describe persistentvolume generic-pv2

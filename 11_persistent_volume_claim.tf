@@ -42,10 +42,10 @@ resource "kubernetes_persistent_volume_claim" "generic_pvc1" {
 resource "kubernetes_persistent_volume_claim" "generic_pvc2" {
   metadata {
     namespace = kubernetes_namespace.generic_ns.metadata.0.name
-    name      = "generic-pv2-claim"
+    name      = "generic-pvc2"
 
     labels = {
-      name    = "generic-pv2-claim"
+      name    = "generic-pvc2"
       env     = var.env
       version = "v1"
     }

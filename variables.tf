@@ -37,6 +37,31 @@ variable "client_key" {
 }
 */
 
+# Storage & Path
+variable "storage_provisioner" {
+  description = "This Storage Provisioner Type."
+  default     = "kubernetes.io/no-provisioner" #  | "k8s.io/minikube-hostpath" | "docker.io/hostpath"
+}
+
+variable "reclaim_policy" {
+  description = "This Storage Reclaim Policy."
+  default     = "Delete"
+}
+
+variable "allow_volume_expansion" {
+  description = "Allow Volume Expansion."
+  default     = "true"
+}
+
+variable "pv1_path" {
+  description = "This path to Persistent Volume Storage 1."
+  default     = "/data/pv-1"
+}
+
+variable "pv2_path" {
+  description = "This path to Persistent Volume Storage 2."
+  default     = "/data/pv-2"
+}
 
 # Tags
 variable "env" {
