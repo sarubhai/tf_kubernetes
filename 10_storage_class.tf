@@ -24,7 +24,7 @@ resource "kubernetes_storage_class" "generic_sc" {
 
   storage_provisioner    = var.storage_provisioner
   reclaim_policy         = var.reclaim_policy
-  volume_binding_mode    = "Immediate"
+  volume_binding_mode    = "WaitForFirstConsumer" # "Immediate"
   allow_volume_expansion = var.allow_volume_expansion
 
   # mount_options = []

@@ -5,23 +5,33 @@ Deploys multiple Kubernetes Resouces in k8s Minikube cluster using Terraform
 The Resources that will be deployed from this repository are:
 
 - Namespace
+- Default Service Account
 - Service Account
 - Cluster Role
-- Role ^
+- Role
 - Cluster Role Binding
 - Role Binding
-- Config Map ^
+- Config Map
 - Secret
-- Storage Class ^
-- Persistent Volume ^
+- Storage Class
+- Persistent Volume
 - Persistent Volume Claim (Release/Recreate Issue)
-- Pod ^
-- Replication Controller ^
-- Deployment ^
-- Service ^
+- Pod
+- Resource Quota
+- Limit Range
+- Network Policy
+- [Pod Security Policy]
+- Replication Controller
+- Deployment
+- DaemonSet
+- [StatefulSet]
+- Service
 - Ingress
+- Job
+- Cron Job
+- [Horizontal Pod Autoscaler]
 
-^ - Some attributes don't respond to lifecycle.ignore_changes; only option is to refresh state file; "terraform apply -refresh-only --auto-approve"
+\*\* - Some attributes don't respond to lifecycle.ignore_changes; only option is to refresh state file; "terraform apply -refresh-only --auto-approve"
 
 ### Minikube Configuration using Terraform
 

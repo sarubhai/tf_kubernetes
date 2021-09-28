@@ -25,5 +25,6 @@ resource "kubernetes_namespace" "generic_ns" {
 # Validation
 # kubectl get namespaces
 # kubectl describe namespaces generic-ns
+# kubectl config set-context $(kubectl config current-context) --namespace=generic-ns
 # kubectl get all -n generic-ns
 # kubectl get pods -n generic-ns -o wide

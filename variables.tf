@@ -45,7 +45,7 @@ variable "storage_provisioner" {
 
 variable "reclaim_policy" {
   description = "This Storage Reclaim Policy."
-  default     = "Delete"
+  default     = "Retain" # "Delete"/"Recycle"
 }
 
 variable "allow_volume_expansion" {
@@ -61,6 +61,16 @@ variable "pv1_path" {
 variable "pv2_path" {
   description = "This path to Persistent Volume Storage 2."
   default     = "/data/pv-2"
+}
+
+variable "pv3_path" {
+  description = "This path to Persistent Volume Storage 3."
+  default     = "/data/pv-3"
+}
+
+variable "pv4_path" {
+  description = "This path to Persistent Volume Storage 4."
+  default     = "/data/pv-4"
 }
 
 # Tags

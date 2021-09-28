@@ -1,21 +1,22 @@
-# deployment.tf
+# daemon_set.tf
 # Owner: Saurav Mitra
-# Description: This terraform config will create the kubernetes deployment resources in Kubernetes cluster
-# A Deployment ensures that a specified number of pod “replicas” are running at any one time
+# Description: This terraform config will create the kubernetes daemon set resources in Kubernetes cluster
+# A DaemonSet ensures that all (or some) Nodes run a copy of a Pod. 
+# As nodes are added to the cluster, Pods are added to them. As nodes are removed from the cluster, those Pods are garbage collected.
 
-resource "kubernetes_deployment" "generic_nginx_deploy" {
+resource "kubernetes_daemonset" "generic_nginx_ds" {
   metadata {
     namespace = kubernetes_namespace.generic_ns.metadata.0.name
-    name      = "generic-nginx-deploy"
+    name      = "generic-nginx-ds"
 
     labels = {
-      name    = "generic-nginx-deploy"
+      name    = "generic-nginx-ds"
       env     = var.env
       version = "v1"
     }
 
     annotations = {
-      component     = "deploy"
+      component     = "ds"
       part-of       = "generic"
       managed-by    = "terraform"
       created-by    = var.owner
@@ -24,18 +25,16 @@ resource "kubernetes_deployment" "generic_nginx_deploy" {
   }
 
   spec {
-    replicas = 2
-
     selector {
       match_labels = {
-        name = "generic-nginx-ws-po"
+        name = "generic-nginx-ds-po"
       }
     }
 
     template {
       metadata {
         labels = {
-          name    = "generic-nginx-ws-po"
+          name    = "generic-nginx-ds-po"
           env     = var.env
           version = "v1"
         }
@@ -51,10 +50,8 @@ resource "kubernetes_deployment" "generic_nginx_deploy" {
 
       spec {
         container {
-          image   = "nginx:1.21"
-          name    = "nginx"
-          command = []
-          args    = []
+          image = "nginx:1.21"
+          name  = "nginx"
 
           port {
             container_port = 80
@@ -108,6 +105,7 @@ resource "kubernetes_deployment" "generic_nginx_deploy" {
   }
 }
 
+
 # Validation
-# kubectl get deployments -n generic-ns
-# kubectl describe deployment generic-nginx-deploy -n generic-ns
+# kubectl get daemonsets -n generic-ns
+# kubectl describe daemonset generic-nginx-ds -n generic-ns

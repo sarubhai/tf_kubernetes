@@ -52,10 +52,8 @@ resource "kubernetes_replication_controller" "generic_nginx_rc" {
 
       spec {
         container {
-          image   = "nginx:1.21"
-          name    = "generic-nginx"
-          command = []
-          args    = []
+          image = "nginx:1.21"
+          name  = "generic-nginx"
 
           port {
             container_port = 80

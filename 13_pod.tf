@@ -64,10 +64,6 @@ resource "kubernetes_pod" "generic_busybox_po" {
         }
       }
 
-      # port {
-      #   container_port = 22
-      # }
-
       volume_mount {
         name       = "write-log"
         mount_path = "/output"
