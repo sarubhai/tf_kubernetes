@@ -54,21 +54,18 @@ Terraform is already installed in local machine.
 ### terraform.tfvars
 
 ```
-config_path = "/Users/John/.minikube/config"
-
-config_context = ""
-
-hostname = "minikube"
-
-storage_provisioner    = "kubernetes.io/no-provisioner"
-
+config_path            = "/Users/John/.minikube/config"
+hostname               = "minikube"
+config_context         = ""
+storage_provisioner    = "k8s.io/minikube-hostpath"
 reclaim_policy         = "Delete"
-
-allow_volume_expansion = true
-
+volume_binding_mode    = "Immediate"
+allow_volume_expansion = false
 pv1_path               = "/data/pv-1"
-
 pv2_path               = "/data/pv-2"
+pv3_path               = "/data/pv-3"
+pv4_path               = "/data/pv-4"
+pv_postgres_path       = "/data/pv-postgres"
 
 ```
 
