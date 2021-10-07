@@ -86,7 +86,7 @@ resource "kubernetes_pod" "generic_busybox_po" {
     volume {
       name = "write-log"
       persistent_volume_claim {
-        claim_name = kubernetes_persistent_volume_claim.generic_pvc2.metadata.0.name
+        claim_name = kubernetes_persistent_volume_claim.generic_pvc1.metadata.0.name
         read_only  = false
       }
     }
@@ -108,3 +108,4 @@ resource "kubernetes_pod" "generic_busybox_po" {
 # Validation
 # kubectl get pods -n generic-ns
 # kubectl describe pod generic-busybox-po -n generic-ns
+# cat /data/pv-1/output.log

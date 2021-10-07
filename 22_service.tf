@@ -38,6 +38,45 @@ resource "kubernetes_service" "generic_nginx_svc" {
       protocol    = "TCP"
     }
   }
+}
+
+
+# Postgres
+resource "kubernetes_service" "generic_postgres_svc" {
+  metadata {
+    namespace = kubernetes_namespace.generic_ns.metadata.0.name
+    name      = "generic-postgres-svc"
+
+    labels = {
+      name    = "generic-postgres-svc"
+      env     = var.env
+      version = "v1"
+    }
+
+    annotations = {
+      component  = "svc"
+      part-of    = "generic"
+      managed-by = "terraform"
+      created-by = var.owner
+    }
+  }
+
+  spec {
+    selector = {
+      # name = "generic-postgres-sts-po"
+      name = kubernetes_stateful_set.generic_postgres_sts.spec.0.template.0.metadata.0.labels.name
+    }
+
+    type             = "NodePort"
+    session_affinity = "ClientIP"
+
+    port {
+      port        = 5432
+      target_port = 5432
+      node_port   = 32345
+      protocol    = "TCP"
+    }
+  }
 
   # lifecycle {
   #   ignore_changes = [
@@ -47,7 +86,11 @@ resource "kubernetes_service" "generic_nginx_svc" {
   # }
 }
 
+
 # Validation
 # kubectl get services -n generic-ns
 # kubectl describe service generic-nginx-svc -n generic-ns
-# curl http://10.0.1.200:30080
+# curl http://minikube.demo:30080/
+
+# Postgres
+# psql -h 127.0.0.1 -p 32345 -U adminuser -d dev

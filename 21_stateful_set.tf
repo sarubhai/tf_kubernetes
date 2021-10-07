@@ -3,14 +3,13 @@
 # Description: This terraform config will create the kubernetes stateful set resources in Kubernetes cluster
 # Manages the deployment and scaling of a set of Pods , and provides guarantees about the ordering and uniqueness of these Pods.
 
-
-resource "kubernetes_stateful_set" "generic_nginx_sts" {
+resource "kubernetes_stateful_set" "generic_postgres_sts" {
   metadata {
     namespace = kubernetes_namespace.generic_ns.metadata.0.name
-    name      = "generic-nginx-sts"
+    name      = "generic-postgres-sts"
 
     labels = {
-      name    = "generic-nginx-sts"
+      name    = "generic-postgres-sts"
       env     = var.env
       version = "v1"
     }
@@ -26,21 +25,21 @@ resource "kubernetes_stateful_set" "generic_nginx_sts" {
 
   spec {
     pod_management_policy  = "Parallel"
-    replicas               = 1
+    replicas               = 2
     revision_history_limit = 5
 
     selector {
       match_labels = {
-        name = "generic-nginx-sts-po"
+        name = "generic-postgres-sts-po"
       }
     }
 
-    service_name = "generic-nginx-sts"
+    service_name = "generic-postgres-sts"
 
     template {
       metadata {
         labels = {
-          name    = "generic-nginx-sts-po"
+          name    = "generic-postgres-sts-po"
           env     = var.env
           version = "v1"
         }
@@ -58,17 +57,23 @@ resource "kubernetes_stateful_set" "generic_nginx_sts" {
         service_account_name = "default"
 
         container {
-          image = "nginx:1.21"
-          name  = "nginx"
+          image = "postgres:latest"
+          name  = "postgres"
 
           port {
-            container_port = 80
+            container_port = 5432
+          }
+
+          env_from {
+            config_map_ref {
+              name = kubernetes_config_map.postgres_cm.metadata.0.name
+            }
           }
 
           volume_mount {
-            name       = "static-asset"
-            mount_path = "/usr/share/nginx/html"
-            read_only  = true
+            name       = "pgdata"
+            mount_path = "/data"
+            read_only  = false
           }
 
           resources {
@@ -82,23 +87,13 @@ resource "kubernetes_stateful_set" "generic_nginx_sts" {
               memory = "50Mi"
             }
           }
-
-          liveness_probe {
-            http_get {
-              path = "/"
-              port = 80
-            }
-
-            initial_delay_seconds = 3
-            period_seconds        = 3
-          }
         }
 
         volume {
-          name = "static-asset"
+          name = "pgdata"
           persistent_volume_claim {
-            claim_name = kubernetes_persistent_volume_claim.generic_pvc1.metadata.0.name
-            read_only  = true
+            claim_name = kubernetes_persistent_volume_claim.generic_pvc_postgres.metadata.0.name
+            read_only  = false
           }
         }
       }
@@ -114,7 +109,6 @@ resource "kubernetes_stateful_set" "generic_nginx_sts" {
 }
 
 
-
 # Validation
 # kubectl get statefulsets -n generic-ns
-# kubectl describe statefulset generic-nginx-sts -n generic-ns
+# kubectl describe statefulset generic-postgres-sts -n generic-ns

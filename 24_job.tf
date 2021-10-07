@@ -63,3 +63,4 @@ resource "kubernetes_job" "generic_jobs" {
 # Validation
 # kubectl get jobs -n generic-ns
 # kubectl describe job generic-busybox-jobs -n generic-ns
+# cat /data/pv-3/job_output.log

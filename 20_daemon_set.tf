@@ -89,7 +89,7 @@ resource "kubernetes_daemonset" "generic_nginx_ds" {
         volume {
           name = "static-asset"
           persistent_volume_claim {
-            claim_name = kubernetes_persistent_volume_claim.generic_pvc1.metadata.0.name
+            claim_name = kubernetes_persistent_volume_claim.generic_pvc2.metadata.0.name
             read_only  = true
           }
         }
@@ -109,3 +109,5 @@ resource "kubernetes_daemonset" "generic_nginx_ds" {
 # Validation
 # kubectl get daemonsets -n generic-ns
 # kubectl describe daemonset generic-nginx-ds -n generic-ns
+# kubectl get pods -o wide | generic-nginx-ds-
+# curl <IP>

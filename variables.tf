@@ -6,6 +6,7 @@
 # Cluster Config
 variable "config_path" {
   description = "Path to kube config file."
+  default     = "/Users/Name/.kube/config"
 }
 
 variable "config_context" {
@@ -37,41 +38,53 @@ variable "client_key" {
 }
 */
 
+
 # Storage & Path
 variable "storage_provisioner" {
-  description = "This Storage Provisioner Type."
-  default     = "kubernetes.io/no-provisioner" #  | "k8s.io/minikube-hostpath" | "docker.io/hostpath"
+  description = "The Storage Provisioner Type."
+  default     = "kubernetes.io/no-provisioner" # | "k8s.io/minikube-hostpath" | "docker.io/hostpath"
 }
 
 variable "reclaim_policy" {
-  description = "This Storage Reclaim Policy."
-  default     = "Retain" # "Delete"/"Recycle"
+  description = "The Storage Reclaim Policy."
+  default     = "Retain" # | "Delete"
+}
+
+variable "volume_binding_mode" {
+  description = "The Volume Binding Mode."
+  default     = "Immediate" # | "WaitForFirstConsumer"
 }
 
 variable "allow_volume_expansion" {
   description = "Allow Volume Expansion."
-  default     = "true"
+  default     = true # | false
 }
 
 variable "pv1_path" {
-  description = "This path to Persistent Volume Storage 1."
+  description = "The path to Persistent Volume Storage 1."
   default     = "/data/pv-1"
 }
 
 variable "pv2_path" {
-  description = "This path to Persistent Volume Storage 2."
+  description = "The path to Persistent Volume Storage 2."
   default     = "/data/pv-2"
 }
 
 variable "pv3_path" {
-  description = "This path to Persistent Volume Storage 3."
+  description = "The path to Persistent Volume Storage 3."
   default     = "/data/pv-3"
 }
 
 variable "pv4_path" {
-  description = "This path to Persistent Volume Storage 4."
+  description = "The path to Persistent Volume Storage 4."
   default     = "/data/pv-4"
 }
+
+variable "pv_postgres_path" {
+  description = "The path to Persistent Volume Storage for Postgres."
+  default     = "/data/pv-postgres"
+}
+
 
 # Tags
 variable "env" {

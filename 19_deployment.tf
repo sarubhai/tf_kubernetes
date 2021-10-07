@@ -90,7 +90,7 @@ resource "kubernetes_deployment" "generic_nginx_deploy" {
         volume {
           name = "static-asset"
           persistent_volume_claim {
-            claim_name = kubernetes_persistent_volume_claim.generic_pvc1.metadata.0.name
+            claim_name = kubernetes_persistent_volume_claim.generic_pvc2.metadata.0.name
             read_only  = true
           }
         }
@@ -106,6 +106,9 @@ resource "kubernetes_deployment" "generic_nginx_deploy" {
   }
 }
 
+
 # Validation
 # kubectl get deployments -n generic-ns
 # kubectl describe deployment generic-nginx-deploy -n generic-ns
+# kubectl get pods -o wide | grep generic-nginx-deploy-
+# curl <IP>

@@ -4,6 +4,7 @@
 # Kubernetes supports network policies to specify how groups of pods are allowed to communicate with each other and with other network endpoints.
 # NetworkPolicy resources use labels to select pods and define rules which specify what traffic is allowed to the selected pods.
 
+# COMMENTED FOR DEMO
 /*
 resource "kubernetes_network_policy" "generic_netpol" {
   metadata {
@@ -72,8 +73,8 @@ resource "kubernetes_network_policy" "generic_netpol" {
 # kubectl run busybox3 --image=busybox --restart=Never -n generic-ns -l="mode=maintenance" -- sleep 3600
 # kubectl get pods -o wide -n generic-ns
 # kubectl get pods -l mode=maintenance -o wide -n generic-ns
-# kubectl exec -ti busybox1 -n generic-ns -- ping -c3 busybox2_ip
-# kubectl exec -ti busybox1 -n generic-ns -- ping -c3 busybox3_ip
+# kubectl exec -ti busybox1 -n generic-ns -- ping -c3 <busybox2_IP>
+# kubectl exec -ti busybox1 -n generic-ns -- ping -c3 <busybox3_IP>
 
 # After Enabling Network Policy
 # kubectl get networkpolicies -n generic-ns

@@ -41,5 +41,5 @@ resource "kubernetes_resource_quota" "generic_quota" {
 # kubectl run nginx2 --image=nginx --restart=Never -n generic-ns
 # kubectl run nginx3 --image=nginx --restart=Never -n generic-ns
 # kubectl run nginx4 --image=nginx --restart=Never -n generic-ns
-# kubectl run nginx4 --image=nginx --restart=Never -n generic-ns
+# kubectl run nginx5 --image=nginx --restart=Never -n generic-ns
 # kubectl delete pod nginx1 nginx2 nginx3 nginx4 -n generic-ns

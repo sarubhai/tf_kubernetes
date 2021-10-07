@@ -4,6 +4,7 @@
 # Ingress is a collection of rules that allow inbound connections to reach the endpoints defined by a backend. 
 # An Ingress can be configured to give services externally-reachable urls, load balance traffic, terminate SSL, offer name based virtual hosting etc
 
+# NOT WORKING FROM TF
 /*
 resource "kubernetes_ingress" "generic_nginx_ing" {
   # wait_for_load_balancer = true

@@ -23,7 +23,7 @@ resource "kubernetes_replication_controller" "generic_nginx_rc" {
   }
 
   spec {
-    replicas = 1
+    replicas = 2
 
     selector = {
       # name = kubernetes_pod.generic_nginx_po.metadata.0.name
@@ -97,3 +97,5 @@ resource "kubernetes_replication_controller" "generic_nginx_rc" {
 # Validation
 # kubectl get rc -n generic-ns
 # kubectl describe rc generic-nginx-rc -n generic-ns
+# kubectl get pods -o wide | grep generic-nginx-rc-
+# curl <IP>

@@ -27,7 +27,7 @@ resource "kubernetes_cron_job" "generic_cj" {
   spec {
     concurrency_policy            = "Replace"
     failed_jobs_history_limit     = 5
-    schedule                      = "*/5  * * * *"
+    schedule                      = "*/2  * * * *"
     starting_deadline_seconds     = 10
     successful_jobs_history_limit = 10
     job_template {
@@ -69,3 +69,4 @@ resource "kubernetes_cron_job" "generic_cj" {
 # Validation
 # kubectl get cronjobs -n generic-ns
 # kubectl describe cronjob generic-busybox-cj -n generic-ns
+# cat /data/pv-4/cron_output.log

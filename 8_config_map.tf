@@ -27,6 +27,35 @@ resource "kubernetes_config_map" "generic_cm" {
     api_hostname = "api.example.com:443"
     db_hostname  = "db.example.com:5432"
   }
+}
+
+
+# Postgres
+resource "kubernetes_config_map" "postgres_cm" {
+  metadata {
+    namespace = kubernetes_namespace.generic_ns.metadata.0.name
+    name      = "postgres-cm"
+
+    labels = {
+      name    = "postgres-cm"
+      env     = var.env
+      version = "v1"
+    }
+
+    annotations = {
+      component  = "cm"
+      part-of    = "postgres-generic"
+      managed-by = "terraform"
+      created-by = var.owner
+    }
+  }
+
+  data = {
+    POSTGRES_DB       = "dev"
+    POSTGRES_USER     = "adminuser"
+    POSTGRES_PASSWORD = "Password1234"
+    PGDATA            = "/data/pgdata"
+  }
 
   # binary_data = {}
 
@@ -38,5 +67,6 @@ resource "kubernetes_config_map" "generic_cm" {
 # Validation
 # kubectl get configmaps -n generic-ns
 # kubectl describe configmaps generic-cm -n generic-ns
+# kubectl describe configmaps postgres-cm -n generic-ns
 # kubectl get configmaps generic-cm -n generic-ns -o jsonpath="{.data['api_hostname']}"; echo
 # kubectl get configmaps generic-cm -n generic-ns -o jsonpath="{.data['db_hostname']}"; echo

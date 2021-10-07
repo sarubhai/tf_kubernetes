@@ -3,6 +3,7 @@
 # Description: This terraform config will create the kubernetes horizontal pod autoscaler resources in Kubernetes cluster
 # Horizontal Pod Autoscaler automatically scales the number of pods in a replication controller, deployment or replica set based on observed CPU utilization.
 
+# TO-DO
 /*
 resource "kubernetes_horizontal_pod_autoscaler" "example" {
   metadata {

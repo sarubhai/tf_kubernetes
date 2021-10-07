@@ -148,6 +148,44 @@ resource "kubernetes_persistent_volume_claim" "generic_pvc4" {
 }
 
 
+# Postgres
+resource "kubernetes_persistent_volume_claim" "generic_pvc_postgres" {
+  metadata {
+    namespace = kubernetes_namespace.generic_ns.metadata.0.name
+    name      = "generic-pvc-postgres"
+
+    labels = {
+      name    = "generic-pvc-postgres"
+      env     = var.env
+      version = "v1"
+    }
+
+    annotations = {
+      component  = "pvc"
+      part-of    = "generic"
+      managed-by = "terraform"
+      created-by = var.owner
+    }
+  }
+
+  spec {
+    access_modes       = ["ReadWriteOnce"]
+    storage_class_name = kubernetes_storage_class.generic_sc.metadata.0.name
+    volume_name        = kubernetes_persistent_volume.generic_pv_postgres.metadata.0.name
+
+    resources {
+      limits = {
+        storage = "2Gi"
+      }
+
+      requests = {
+        storage = "1Gi"
+      }
+    }
+  }
+}
+
+
 # Validation
 # kubectl get persistentvolumeclaims -n generic-ns
 # kubectl describe persistentvolumeclaim generic-pvc1 -n generic-ns

@@ -192,6 +192,56 @@ resource "kubernetes_persistent_volume" "generic_pv4" {
         path = var.pv4_path
       }
     }
+  }
+}
+
+
+# Postgres
+resource "kubernetes_persistent_volume" "generic_pv_postgres" {
+  metadata {
+    name = "generic-pv-postgres"
+
+    labels = {
+      name    = "generic-pv-postgres"
+      env     = var.env
+      version = "v1"
+      type    = "local"
+    }
+
+    annotations = {
+      component  = "pv"
+      part-of    = "generic"
+      managed-by = "terraform"
+      created-by = var.owner
+    }
+  }
+
+  spec {
+    access_modes                     = ["ReadWriteOnce"]
+    storage_class_name               = kubernetes_storage_class.generic_sc.metadata.0.name
+    persistent_volume_reclaim_policy = var.reclaim_policy
+
+    capacity = {
+      storage = "2Gi"
+    }
+
+    node_affinity {
+      required {
+        node_selector_term {
+          match_expressions {
+            key      = "kubernetes.io/hostname"
+            operator = "In"
+            values   = [var.hostname]
+          }
+        }
+      }
+    }
+
+    persistent_volume_source {
+      local {
+        path = var.pv_postgres_path
+      }
+    }
 
     # mount_options = []
   }

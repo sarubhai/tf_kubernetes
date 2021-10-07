@@ -24,12 +24,14 @@ The Resources that will be deployed from this repository are:
 - Replication Controller
 - Deployment
 - DaemonSet
-- [StatefulSet]
+- StatefulSet
 - Service
-- Ingress
+- [Ingress]
 - Job
 - Cron Job
 - [Horizontal Pod Autoscaler]
+
+[TO-DO]
 
 \*\* - Some attributes don't respond to lifecycle.ignore_changes; only option is to refresh state file; "terraform apply -refresh-only --auto-approve"
 
@@ -101,3 +103,4 @@ pv2_path               = "/data/pv-2"
 - kubectl get ingress -n generic-ns
 - kubectl get persistentvolumes
 - kubectl get persistentvolumeclaims -n generic-ns
+- kubectl config set-context $(kubectl config current-context) --namespace=generic-ns

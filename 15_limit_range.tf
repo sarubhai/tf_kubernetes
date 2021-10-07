@@ -3,6 +3,7 @@
 # Description: This terraform config will create the kubernetes limit range resources in Kubernetes cluster
 # Limit Range sets resource usage limits (e.g. memory, cpu, storage) for supported kinds of resources in a namespace.
 
+# COMMENTED FOR DEMO
 /*
 resource "kubernetes_limit_range" "generic_limits" {
   metadata {
@@ -53,7 +54,7 @@ resource "kubernetes_limit_range" "generic_limits" {
 # kubectl describe limitrange generic-pod-limits -n generic-ns
 # kubectl run nginx2 --image=nginx --restart=Never -n generic-ns
 # kubectl describe pod nginx2 -n generic-ns
-# Verify Limits & Requests
+# Verify the Limits & Requests in Containers block section
 
 # Cleanup
 # kubectl delete pod nginx1 nginx2 -n generic-ns
